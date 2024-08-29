@@ -3,7 +3,7 @@ const NotFoundError = require("../errors/NotFoundError");
 
 exports.create = async (req, res, next) => {
     const movieId  = req.params.id;
-    userId = req.user.id;    
+    const userId = req.user.id;    
     try {
         const movie = await Movie.findByPk(movieId);
         if (!movie) throw new NotFoundError("Movie Not Found");
