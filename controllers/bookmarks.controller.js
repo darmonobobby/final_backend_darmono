@@ -21,7 +21,7 @@ exports.create = async (req, res, next) => {
                 } 
             });
         }
-        res.status(200).json({
+        res.status(409).json({
             message: "Bookmark already exists", 
             data: { 
                 id: existingBookmark.id,
