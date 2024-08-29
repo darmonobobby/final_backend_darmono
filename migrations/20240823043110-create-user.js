@@ -16,6 +16,7 @@ module.exports = {
       username: {
         type: Sequelize.STRING(100),
         allowNull: false,
+        unique: true,
       },
       email: {
         type: Sequelize.STRING(50),
@@ -27,7 +28,8 @@ module.exports = {
         allowNull: false,
       },
       role: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: "customer" 
       },
       address: {
         type: Sequelize.TEXT
