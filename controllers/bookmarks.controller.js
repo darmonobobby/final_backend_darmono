@@ -8,32 +8,41 @@ exports.create = async (req, res, next) => {
         const movie = await Movie.findByPk(movieId);
         if (!movie) throw new NotFoundError("Movie Not Found");
 
-        const existingBookmark = await Bookmark.findOne({ where: { movieId, userId } });
-        if (!existingBookmark) {
-            const bookmark = await Bookmark.create({ movieId, userId });
-            return res.status(201).json({
-                message: "success adding new Bookmark", 
-                data: { 
-                    id: bookmark.id,
-                    userId: bookmark.userId,
-                    movieId: bookmark.movieId,
-                    movieTitle: movie.title
-                } 
+        const [bookmark, created] = await Bookmark.findOrCreate({
+          where: { movieId, userId },
+          defaults: { movieId, userId }, 
+          include: [{
+            model: Movie,
+            as: 'movie',
+            attributes: ['title']
+          }]
+        });
+    
+        if (!created) {
+            return res.status(200).json({
+                message: "You've Bookmarked this Movie",
+                data: {
+                  id: bookmark.id,
+                  userId: bookmark.userId,
+                  movieId: bookmark.movieId,
+                  movieTitle: bookmark.movie.title 
+                }
             });
         }
-        res.status(409).json({
-            message: "Bookmark already exists", 
-            data: { 
-                id: existingBookmark.id,
-                userId: existingBookmark.userId,
-                movieId: existingBookmark.movieId,
-                movieTitle: movie.title
-            } 
+    
+        res.status(201).json({
+            message: "success adding new Bookmark",
+            data: {
+              id: bookmark.id,
+              userId: bookmark.userId,
+              movieId: bookmark.movieId,
+              movieTitle: movie.title 
+            }
         });
-    } catch (error) {
-      next(error);
-    }
-  };
+      } catch (error) {
+        next(error);
+      }
+    };
 
   exports.index = async (req, res, next) => {
     const options = {
