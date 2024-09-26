@@ -9,7 +9,7 @@ beforeEach(async () => {
       .send({
         email: 'duplicate@mail.com',
         password: 'rahasia',
-        name: 'Duplicate User',
+        name: 'Test User',
         username: 'duplicateuser',
         phoneNumber: '08111113',
       });
@@ -135,3 +135,23 @@ describe("EndPoint /api/v1/register", () => {
       expect(response.body.error).toEqual(expect.any(String)); 
   });
 });
+
+describe("EndPoint /api/v1/login", () => {
+    it("Should be able to login", async () => {
+      const response = await request(app)
+        .post("/api/v1/login")
+        .set("Content-Type", "application/json")
+        .send({ email: "duplicate@mail.com", password: "rahasia"  });
+  
+      expect(response.statusCode).toBe(200);
+      expect(response.body.accessToken).toEqual(expect.any(String));
+      const jwtRegex = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/; // Regex for JWT
+      expect(response.body.accessToken).toMatch(jwtRegex);
+      expect(response.body.name).toBe("Test User");
+      expect(response.body.role).toBe("customer");
+      expect(response.body.id).toEqual(expect.any(Number));
+    
+    });
+});
+
+
