@@ -58,7 +58,6 @@ exports.login = async (req, res, next) => {
       role: user.role,
     };
     
-    console.log(process.env.JWT_SECRET);
     const token = sign(payload, process.env.JWT_SECRET, { expiresIn: "12h" });
     res.status(200).json({ 
       accessToken: token, 
