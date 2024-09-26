@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "final_project",
+    "database": "final",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "port": 5432
@@ -10,7 +10,7 @@
   "test": {
     "username": "postgres",
     "password": "postgres",
-    "database": "final_project_test",
+    "database": "final_test",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "port": 5432
