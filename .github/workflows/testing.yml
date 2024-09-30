@@ -45,7 +45,7 @@ jobs:
         cache: 'npm'
         
     - name: Install package
-        run: npm ci   
+        
     - name: testing
         run: npm test
     - name: create database
