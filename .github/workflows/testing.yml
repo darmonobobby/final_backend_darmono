@@ -18,7 +18,7 @@ env:
   
 jobs:
   test:
-    
+     runs-on: ubuntu-latest
   services:
     db:
     image: postgres:16
@@ -27,9 +27,7 @@ jobs:
     port:
     - 54321:5432
     environment:
-    - POSTGRES_PASSWORD: postgres
-    
-    runs-on: ubuntu-latest
+    POSTGRES_PASSWORD: postgres  
 
     strategy:
       matrix:
@@ -45,7 +43,7 @@ jobs:
         cache: 'npm'
         
     - name: Install package
-        
+        run: npm install
     - name: testing
         run: npm test
     - name: create database
